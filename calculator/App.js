@@ -12,7 +12,7 @@ export default class App extends Component {
   buttonPress = (text) => {
     
     if(text == '='){
-      return this.calculateResult(this.state.resultText)
+      return this.validate() && this.calculateResult()
     }
 
     this.setState({
@@ -20,6 +20,19 @@ export default class App extends Component {
     })
   }
 
+  validate = () => {
+    const text = this.state.resultText
+
+    switch(text.slice(-1)){
+      case '+': 
+      case '-': 
+      case '*': 
+      case '/': 
+        return false
+    }
+    return true
+  }
+    
   calculateResult = (text) => {
     const text = this.state.resultText
     this.setState({
