@@ -4,7 +4,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 export default class App extends Component {
   
   state = {
-    resultText: ''
+    resultText: '',
+    calculationText: '',
+    operations: ['D', '+', '-', '*', '/']
   }
 
   buttonPress = (text) => {
@@ -20,6 +22,9 @@ export default class App extends Component {
 
   calculateResult = (text) => {
     const text = this.state.resultText
+    this.setState({
+      calculationText: eval(text)
+    })
   }
 
   operate(operation){
@@ -29,6 +34,19 @@ export default class App extends Component {
         text.pop()
         this.setState({
           resultText: text.join('')
+        })
+        break;
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        const lastChar = this.state.resultText.split('').pop()
+
+        if (this.operations.indexOf(lastChar) > 0) return
+        if (this.state.text === '') return
+
+        this.setState({
+          resultText: this.state.resultText + operation
         })
     }
   }
@@ -49,12 +67,11 @@ export default class App extends Component {
       rows.push(<View style={styles.row}>{row}</View>)
     }
 
-    let operations = ['D', '+', '-', '*', '/']
     let ops = []
-    for (let i=0; i <4; i++){
+    for (let i=0; i < 5; i++){
       ops.push(
-        <TouchableOpacity style={styles.btn} onPress={() => this.operate(operation[i])}>
-          <Text style={[styles.btnText, styles.white]}>{operations[i]}</Text>
+        <TouchableOpacity style={styles.btn} onPress={() => this.operate(this.operation[i])}>
+          <Text style={[styles.btnText, styles.white]}>{this.operations[i]}</Text>
         </TouchableOpacity>
       )
     }
@@ -65,7 +82,7 @@ export default class App extends Component {
           <Text style={styles.resultText}>{this.state.resultText}</Text>
         </View>
         <View style={styles.calculation}>
-          <Text style={styles.CalculationText}></Text>
+          <Text style={styles.CalculationText}>{this.state.calculationText}</Text>
         </View>
         <View style={styles.buttons}>
           <View style={styles.numbers}>
