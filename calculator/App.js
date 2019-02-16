@@ -6,7 +6,7 @@ export default class App extends Component {
   state = {
     resultText: '',
     calculationText: '',
-    operations: ['D', '+', '-', '*', '/']
+    operations: ['DEL', '+', '-', '*', '/']
   }
 
   buttonPress = (text) => {
@@ -42,7 +42,7 @@ export default class App extends Component {
 
   operate(operation){
     switch(operation){
-      case 'D': 
+      case 'DEL': 
         const text = this.state.resultText.split('')
         text.pop()
         this.setState({
@@ -72,18 +72,18 @@ export default class App extends Component {
       let row = []
       for (let j=0; j<3; j++){
         row.push(
-          <TouchableOpacity style={styles.btn} onPress={() => this.buttonPress(nums[i][j])}>
+          <TouchableOpacity key={nums[i][j]} style={styles.btn} onPress={() => this.buttonPress(nums[i][j])}>
             <Text style={styles.btnText}>{nums[i][j]}</Text>
           </TouchableOpacity>
         )
       }
-      rows.push(<View style={styles.row}>{row}</View>)
+      rows.push(<View key={i} style={styles.row}>{row}</View>)
     }
 
     let ops = []
     for (let i=0; i < 5; i++){
       ops.push(
-        <TouchableOpacity style={styles.btn} onPress={() => this.operate(this.operation[i])}>
+        <TouchableOpacity key={this.operations[i]} style={styles.btn} onPress={() => this.operate(this.operation[i])}>
           <Text style={[styles.btnText, styles.white]}>{this.operations[i]}</Text>
         </TouchableOpacity>
       )
@@ -125,23 +125,23 @@ const styles = StyleSheet.create({
   },
   result: {
     flex: 2,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
   resultText: {
     fontSize: 30,
-    color: 'white'
+    color: 'black'
   },
   calculation: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
   calculationText: {
     fontSize: 24,
-    color: 'white'
+    color: 'black'
   },
   btn: {
     flex: 1,
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 30,
+    color: 'white'
   },
   buttons: {
     flex: 7,
@@ -158,11 +159,11 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 3,
-    backgroundColor: 'yellow'
+    backgroundColor: '#434343'
   },
   operations: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#636363',
     justifyContent: 'space-around'
   },
   white: {
